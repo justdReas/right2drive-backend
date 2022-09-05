@@ -28,7 +28,11 @@ This will ensure that the latest version of dependencies are installed and funct
 
 ```mermaid
 stateDiagram
-    clone repo from github --> run Terminal in project folder
-    run Terminal in project folder --> run npm install
-    run npm install --> run npm start
+    A: clone repo from github
+    B: run Terminal in project folder
+    C: run npm install
+    D: run npm start
+    A --> B
+    B --> C
+    C --> D
 ```
