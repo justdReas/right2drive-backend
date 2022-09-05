@@ -17,23 +17,12 @@ let users = {};
 /**
  * @openapi
  * /user:
- *   get:
+ *   post:
  *     description: Creates a user!
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               firstname:
- *                 type: string
- *                 description: The user's name.
- *                 example: Jon
- *               email:
- *                 type: string
- *                 description: The user's email.
- *                 example: jon.doe@some.where
  *     responses:
  *       200:
  *         description: Creates a user.
@@ -49,25 +38,23 @@ let users = {};
  *                       type: integer
  *                       description: The user ID.
  *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       description: The user's name.
+ *                       example: Jone Doe
  *                     email:
  *                       type: string
  *                       description: The user's name.
  *                       example: Jone Doe
  */
-
 router.post("/", async (req, res, next) => {
   if (!req.body.hasOwnProperty("email")) {
     res.status(400).send("User email is mandatory!");
     return;
   }
 
-  if (!req.body.hasOwnProperty("password")) {
-    res.status(400).send("User password is mandatory!");
-    return;
-  }
-
-  if (!req.body.hasOwnProperty("username")) {
-    res.status(400).send("Username is mandatory!");
+  if (!req.body.hasOwnProperty("firstname")) {
+    res.status(400).send("Firstname is mandatory!");
     return;
   }
 
@@ -78,10 +65,9 @@ router.post("/", async (req, res, next) => {
   }
 
   users[id] = {
-    id: req.body.email,
-    user: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
+    id: req.email,
+    user: req.firstname,
+    email: req.email,
   };
 
   res.status(200).send(users);

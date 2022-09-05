@@ -6,7 +6,8 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql8");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
+const swaggerOptions = require("./swagger.json");
+const swaggerJsdoc = require("swagger-jsdoc");
 
 const PORT = process.env.PORT || 4000;
 
@@ -23,13 +24,15 @@ app.use("/health", require("./routes/healthcheck"));
 app.use("/user", require("./routes/user"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.get("/", (req, res) => {
-  const sqlGet = "SELECT * FROM right2drivedb";
+  // const sqlGet = "SELECT * FROM right2drivedb";
+  headers = { "cache-control": "no-cache" };
+  body = { status: "available" };
   db.query(sqlGet, (error, result) => {
-    headers = { "cache-control": "no-cache" };
-    body = { status: "available" };
     res.send(result).status(200);
   });
 });

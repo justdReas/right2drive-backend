@@ -1,10 +1,7 @@
 {
   "swaggerDefinition": {
     "openapi": "3.0.0",
-    "info": {
-      "title": "API for edu-backend-swagger-js",
-      "version": "1.0.0"
-    }
+    "info": { "title": "Right 2 Drive Back-end", "version": "1.0.0" }
   },
-  "apis": ["./*.js"]
+  "apis": ["./routes/*.js"]
 }
