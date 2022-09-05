@@ -28,7 +28,7 @@ This will ensure that the latest version of dependencies are installed and funct
 
 ```mermaid
 graph TD;
-	clone repo from github --> run Terminal in project folder;
-   	run Terminal in project folder --> run npm install;
-   	run npm install --> run npm start;
+    clone repo from github --> run Terminal in project folder;
+    run Terminal in project folder --> run npm install;
+    run npm install --> run npm start;
 ```
