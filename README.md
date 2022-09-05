@@ -18,11 +18,8 @@ This will ensure that the latest version of dependencies are installed and funct
 ## Onboarding
 ### Prerequisites
 
->node
->
->Docker
->
->Heroku
+* node
+* Heroku
 
 ### Run
 
