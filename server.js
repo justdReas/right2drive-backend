@@ -83,6 +83,109 @@ app.get("/users/:id", async (req, res) => {
 });
 
 // Post
+/**
+ * @openapi
+ * /users:
+ *  post:
+ *    summary: Add a new user.
+ *    description: Add a single user
+ *    operationId: addUser
+ *    parameters:
+ *      - in: query
+ *        name: firstname
+ *        description: First name of user
+ *        required: true
+ *        content:
+ *          type: string
+ *      - in: query
+ *        name: lastname
+ *        description: Last name of user
+ *        required: true
+ *        content:
+ *          type: string
+ *      - in: query
+ *        name: email
+ *        description: User's email address
+ *        required: true
+ *        content:
+ *          type: string
+ *      - in: query
+ *        name: phone
+ *        description: User's phone number
+ *        content:
+ *          type: string
+ *      - in: query
+ *        name: date
+ *        description: Date
+ *        required: true
+ *        content:
+ *          type: string
+ *    responses:
+ *      '200':
+ *        description: Invalid input
+ */
+app.post("/users", async (req, res) => {
+  const { firstname, lastname, email, phone, date } = req.body;
+  const sqlInsert =
+    "INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
+  db.query(
+    sqlInsert,
+    [firstname, lastname, email, phone, date],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      }
+      res.end();
+    }
+  );
+});
+// Delete
+/**
+ * @openapi
+ * /users/{id}:
+ *  delete:
+ *    summary: Delete a user by ID.
+ *    description: Delete a single user
+ *    operationId: deleteUserById
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: ID of user to delete
+ *        required: true
+ *        content:
+ *          type: integer
+ *          format: int64
+ *    responses:
+ *      '200':
+ *        description: A successful operation
+ */
+app.delete("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const sqlRemove = "DELETE FROM right2drivedb WHERE id = ?";
+  db.query(sqlRemove, id, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.end();
+  });
+});
+
+app.put("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const { firstname, lastname, email, phone, date } = req.body;
+  const sqlUpdate =
+    "UPDATE  right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
+  db.query(
+    sqlUpdate,
+    [firstname, lastname, email, phone, date, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      }
+      res.send(result);
+    }
+  );
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
