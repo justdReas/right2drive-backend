@@ -6,8 +6,8 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql8");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerOptions = require("./swagger.json");
-const swaggerJsdoc = require("swagger-jsdoc");
 
 const PORT = process.env.PORT || 4000;
 
@@ -25,10 +25,21 @@ app.use("/user", require("./routes/user"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.get("/", (req, res) => {
+// Routes
+/**
+ * @openapi
+ * /users:
+ *  get:
+ *    description: Use to request all customers
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
+
+app.get("/users", (req, res) => {
   const sqlGet = "SELECT * FROM right2drivedb";
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };

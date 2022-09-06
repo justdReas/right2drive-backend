@@ -17,35 +17,11 @@ let users = {};
 /**
  * @openapi
  * /user:
- *   post:
+ *   get:
  *     description: Creates a user!
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *     responses:
- *       200:
- *         description: Creates a user.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                       description: The user ID.
- *                       example: 1
- *                     name:
- *                       type: string
- *                       description: The user's name.
- *                       example: Jone Doe
- *                     email:
- *                       type: string
- *                       description: The user's name.
- *                       example: Jone Doe
+ *     response:
+ *       '200':
+ *         description: A successful response *
  */
 router.post("/", async (req, res, next) => {
   if (!req.body.hasOwnProperty("email")) {
