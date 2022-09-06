@@ -29,17 +29,20 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Routes
+
+// Read
 /**
  * @openapi
  * /users:
  *  get:
- *    description: Use to request all customers
+ *    summary: See all users
+ *    description: Use to fetch all users
  *    responses:
  *      '200':
  *        description: A successful response
  */
 
-app.get("/users", (req, res) => {
+app.get("/users", async (req, res) => {
   const sqlGet = "SELECT * FROM right2drivedb";
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };
@@ -47,6 +50,39 @@ app.get("/users", (req, res) => {
     res.send(result).status(200);
   });
 });
+
+/**
+ * @openapi
+ * /users/{id}:
+ *  get:
+ *    summary: Find a user by ID.
+ *    description: Returns a single user
+ *    operationId: getUserById
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: ID of user to return
+ *        required: true
+ *        content:
+ *          type: integer
+ *          format: int64
+ *    responses:
+ *      '200':
+ *        description: A successful operation
+ */
+
+app.get("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const sqlGet = "SELECT * FROM right2drivedb WHERE id = ?";
+  db.query(sqlGet, id, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.send(result);
+  });
+});
+
+// Post
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
