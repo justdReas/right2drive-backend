@@ -43,7 +43,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  */
 
 app.get("/users", async (req, res) => {
-  const sqlGet = "SELECT * FROM right2drivedb";
+  const sqlGet = "SELECT * FROM right2driveDB";
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };
   db.query(sqlGet, (error, result) => {
@@ -73,7 +73,7 @@ app.get("/users", async (req, res) => {
 
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlGet = "SELECT * FROM right2drivedb WHERE id = ?";
+  const sqlGet = "SELECT * FROM right2driveDB WHERE id = ?";
   db.query(sqlGet, id, (error, result) => {
     if (error) {
       console.log(error);
@@ -91,43 +91,48 @@ app.get("/users/:id", async (req, res) => {
  *    description: Add a single user
  *    operationId: addUser
  *    parameters:
- *      - in: query
+ *      - in: formData
  *        name: firstname
  *        description: First name of user
  *        required: true
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: lastname
  *        description: Last name of user
  *        required: true
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: email
  *        description: User's email address
  *        required: true
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: phone
  *        description: User's phone number
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: date
  *        description: Date
  *        required: true
  *        content:
  *          type: string
+ *          format: string
  *    responses:
- *      '200':
+ *      '405':
  *        description: Invalid input
  */
 app.post("/users", async (req, res) => {
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlInsert =
-    "INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
+    "INSERT INTO right2driveDB(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
   db.query(
     sqlInsert,
     [firstname, lastname, email, phone, date],
@@ -139,6 +144,7 @@ app.post("/users", async (req, res) => {
     }
   );
 });
+
 // Delete
 /**
  * @openapi
@@ -161,7 +167,7 @@ app.post("/users", async (req, res) => {
  */
 app.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlRemove = "DELETE FROM right2drivedb WHERE id = ?";
+  const sqlRemove = "DELETE FROM right2driveDB WHERE id = ?";
   db.query(sqlRemove, id, (error, result) => {
     if (error) {
       console.log(error);
@@ -174,7 +180,7 @@ app.put("/users/:id", async (req, res) => {
   const { id } = req.params;
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlUpdate =
-    "UPDATE  right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
+    "UPDATE  right2driveDB SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
   db.query(
     sqlUpdate,
     [firstname, lastname, email, phone, date, id],
