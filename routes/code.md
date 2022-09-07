@@ -36,3 +36,21 @@ app.put("/users/:id", (req, res) => {
      res.send(result);
   });
 });
+
+*         description: Creates a user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       description: The user ID.
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       description: The user's name.
+ *                       example: Jone Doe

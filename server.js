@@ -43,7 +43,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  */
 
 app.get("/users", async (req, res) => {
-  const sqlGet = "SELECT * FROM right2driveDB";
+  const sqlGet = "SELECT * FROM right2drivedb";
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };
   db.query(sqlGet, (error, result) => {
@@ -57,7 +57,6 @@ app.get("/users", async (req, res) => {
  *  get:
  *    summary: Find a user by ID.
  *    description: Returns a single user
- *    operationId: getUserById
  *    parameters:
  *      - in: path
  *        name: id
@@ -73,7 +72,7 @@ app.get("/users", async (req, res) => {
 
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlGet = "SELECT * FROM right2driveDB WHERE id = ?";
+  const sqlGet = "SELECT * FROM right2drivedb WHERE id = ?";
   db.query(sqlGet, id, (error, result) => {
     if (error) {
       console.log(error);
@@ -89,50 +88,38 @@ app.get("/users/:id", async (req, res) => {
  *  post:
  *    summary: Add a new user.
  *    description: Add a single user
- *    operationId: addUser
- *    parameters:
- *      - in: formData
- *        name: firstname
- *        description: First name of user
- *        required: true
- *        content:
- *          type: string
- *          format: string
- *      - in: formData
- *        name: lastname
- *        description: Last name of user
- *        required: true
- *        content:
- *          type: string
- *          format: string
- *      - in: formData
- *        name: email
- *        description: User's email address
- *        required: true
- *        content:
- *          type: string
- *          format: string
- *      - in: formData
- *        name: phone
- *        description: User's phone number
- *        content:
- *          type: string
- *          format: string
- *      - in: formData
- *        name: date
- *        description: Date
- *        required: true
- *        content:
- *          type: string
- *          format: string
- *    responses:
- *      '405':
- *        description: Invalid input
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstname:
+ *                 type: string
+ *                 description: The user's firstname.
+ *                 example: Leanne
+ *               lastname:
+ *                 type: string
+ *                 description: The user's lastname.
+ *                 example: Graham
+ *               email:
+ *                 type: string
+ *                 description: The user's email.
+ *                 example: test@ing.com
+ *               phone:
+ *                 type: string
+ *                 description: The user's phone number.
+ *                 example: 023 123 45 67
+ *               date:
+ *                 type: string
+ *                 description: The date that the user registers.
+ *                 example: 2022/09/24
  */
 app.post("/users", async (req, res) => {
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlInsert =
-    "INSERT INTO right2driveDB(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
+    'INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)';
   db.query(
     sqlInsert,
     [firstname, lastname, email, phone, date],
@@ -167,7 +154,7 @@ app.post("/users", async (req, res) => {
  */
 app.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlRemove = "DELETE FROM right2driveDB WHERE id = ?";
+  const sqlRemove = 'DELETE FROM right2drivedb WHERE id = ?';
   db.query(sqlRemove, id, (error, result) => {
     if (error) {
       console.log(error);
@@ -180,7 +167,7 @@ app.put("/users/:id", async (req, res) => {
   const { id } = req.params;
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlUpdate =
-    "UPDATE  right2driveDB SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
+    "UPDATE  right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
   db.query(
     sqlUpdate,
     [firstname, lastname, email, phone, date, id],
