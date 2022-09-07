@@ -43,7 +43,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  */
 
 app.get("/users", async (req, res) => {
-  const sqlGet = "SELECT * FROM right2drivedb";
+  const sqlGet = "SELECT * FROM right2driveDB";
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };
   db.query(sqlGet, (error, result) => {
@@ -73,7 +73,7 @@ app.get("/users", async (req, res) => {
 
 app.get("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlGet = "SELECT * FROM right2drivedb WHERE id = ?";
+  const sqlGet = "SELECT * FROM right2driveDB WHERE id = ?";
   db.query(sqlGet, id, (error, result) => {
     if (error) {
       console.log(error);
@@ -132,7 +132,7 @@ app.get("/users/:id", async (req, res) => {
 app.post("/users", async (req, res) => {
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlInsert =
-    "INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
+    "INSERT INTO right2driveDB(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
   db.query(
     sqlInsert,
     [firstname, lastname, email, phone, date],
@@ -167,13 +167,30 @@ app.post("/users", async (req, res) => {
  */
 app.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlRemove = "DELETE FROM right2drivedb WHERE id = ?";
+  const sqlRemove = "DELETE FROM right2driveDB WHERE id = ?";
   db.query(sqlRemove, id, (error, result) => {
     if (error) {
       console.log(error);
     }
     res.end();
   });
+});
+
+app.put("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const { firstname, lastname, email, phone, date } = req.body;
+  const sqlUpdate =
+    "UPDATE  right2driveDB SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
+  db.query(
+    sqlUpdate,
+    [firstname, lastname, email, phone, date, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      }
+      res.send(result);
+    }
+  );
 });
 
 app.listen(PORT, () => {
