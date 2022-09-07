@@ -91,37 +91,42 @@ app.get("/users/:id", async (req, res) => {
  *    description: Add a single user
  *    operationId: addUser
  *    parameters:
- *      - in: query
+ *      - in: formData
  *        name: firstname
  *        description: First name of user
  *        required: true
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: lastname
  *        description: Last name of user
  *        required: true
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: email
  *        description: User's email address
  *        required: true
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: phone
  *        description: User's phone number
  *        content:
  *          type: string
- *      - in: query
+ *          format: string
+ *      - in: formData
  *        name: date
  *        description: Date
  *        required: true
  *        content:
  *          type: string
+ *          format: string
  *    responses:
- *      '200':
+ *      '405':
  *        description: Invalid input
  */
 app.post("/users", async (req, res) => {
@@ -139,6 +144,7 @@ app.post("/users", async (req, res) => {
     }
   );
 });
+
 // Delete
 /**
  * @openapi
@@ -168,23 +174,6 @@ app.delete("/users/:id", async (req, res) => {
     }
     res.end();
   });
-});
-
-app.put("/users/:id", async (req, res) => {
-  const { id } = req.params;
-  const { firstname, lastname, email, phone, date } = req.body;
-  const sqlUpdate =
-    "UPDATE  right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
-  db.query(
-    sqlUpdate,
-    [firstname, lastname, email, phone, date, id],
-    (error, result) => {
-      if (error) {
-        console.log(error);
-      }
-      res.send(result);
-    }
-  );
 });
 
 app.listen(PORT, () => {
