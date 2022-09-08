@@ -38,16 +38,11 @@ http://localhost:4000/api-docs/#/
 
 
 ```mermaid
-stateDiagram
-    A: clone repo from github
-    B: run Terminal in project folder
-    C: run npm install
-    D: run npm start
-    E: run http
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A(clone repo from github) --> B(run Terminal in project folder)
+    B(run Terminal in project folder) --> C(run npm install)
+    C(run npm install) --> D(run npm start)
+    D(run npm start) --> E(run http://localhost:4000/api-docs/#/)
 ```
 
 ---
