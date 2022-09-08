@@ -21,6 +21,8 @@ Is a platform allowing collaborative designing and documentation of REST APIs.
 
 Make sure the server is running: ``npm start``
 
+[http://localhost:4000/api-docs/#/](http://localhost:4000/api-docs/#/)
+
 ```
 http://localhost:4000/api-docs/#/
 ```
