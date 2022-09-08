@@ -43,6 +43,7 @@ flowchart LR
     B(run Terminal in project folder) --> C(run npm install)
     C(run npm install) --> D(run npm start)
     D(run npm start) --> E(run http://localhost:4000/api-docs/#/)
+    click E href "http://localhost:4000/api-docs/#/" "Link to Swagger"
 ```
 
 ---
