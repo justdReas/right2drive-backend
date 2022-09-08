@@ -21,7 +21,6 @@ const db = mysql.createPool({
 const app = express();
 app.use(express.json());
 app.use("/health", require("./routes/healthcheck"));
-app.use("/user", require("./routes/user"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
@@ -50,6 +49,8 @@ app.get("/users", async (req, res) => {
     res.send(result).status(200);
   });
 });
+
+// Read one user
 
 /**
  * @openapi
@@ -82,6 +83,7 @@ app.get("/users/:id", async (req, res) => {
 });
 
 // Post
+
 /**
  * @openapi
  * /users:
@@ -116,6 +118,7 @@ app.get("/users/:id", async (req, res) => {
  *                 description: The date that the user registers.
  *                 example: 2022/09/24
  */
+
 app.post("/users", async (req, res) => {
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlInsert =
@@ -132,8 +135,8 @@ app.post("/users", async (req, res) => {
   );
 });
 
-
 // Put / Update
+
 /**
  * @openapi
  * /users/{id}:
@@ -171,6 +174,7 @@ app.post("/users", async (req, res) => {
  *                 description: The date that the user registers.
  *                 example: 2022/09/24
  */
+
 app.put("/users/:id", (req, res) => {
   const { id } = req.params;
   const { firstname, lastname, email, phone, date,} = req.body;
@@ -187,10 +191,7 @@ app.put("/users/:id", (req, res) => {
     }
     );
   });
-  
-  
-  
-  
+
   // Delete
   /**
    * @openapi
@@ -222,12 +223,6 @@ app.delete("/users/:id", async (req, res) => {
     res.end();
   });
 });
-
-
-
-
-
-
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

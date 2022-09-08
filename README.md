@@ -1,9 +1,34 @@
-# Right 2 Drive Backend
+<style>
+.header {
+	text-align: center;
+    font-weight: 600;
+    font-size: 40px;
+	animation: colorchange 6s infinite;
+}
+
+@keyframes colorchange {
+  0% {color: red;
+      transform: translateX(4%);}
+  25% {color: yellow;}
+  50% {color: red;
+transform: translateX(-4%)}
+  75% {color: yellow;}
+ 100% {color: red;
+       transform: translateX(4%)}
+}
+
+</style>
+
+<div class="header">
+
+
+# **Right 2 Drive Backend**
+</div>
 by Andreas, Taner, Lihem, Kim & Mohammad
 
 ---
-## TTFHW
-### Getting the backend to work
+## <u>**TTFHW**</u>
+### <u>Getting the backend to work</u>
 Using Bash, Terminal or PowerShell type:
 
 ```
@@ -12,11 +37,21 @@ cd [project folder]
 npm install
 npm start
 ```
-This will ensure that the latest version of dependencies are installed and functional.
+This will ensure that the latest version of dependencies are installed and functional and that the server is up and running.
+
+### <u>Swagger</u>
+
+Is a platform allowing collaborative designing and documentation of REST APIs.
+
+Make sure the server is running: ``npm start``
+
+```
+http://localhost:4000/api-docs/#/
+```
 
 ---
-## Onboarding
-### Prerequisites
+## <u>**Onboarding**</u>
+### <u>Prerequisites</u>
 
 ```
 * node
@@ -32,7 +67,11 @@ stateDiagram
     B: run Terminal in project folder
     C: run npm install
     D: run npm start
+    E: run http://localhost:4000/api-docs/#/ (Swagger)
     A --> B
     B --> C
     C --> D
+    D --> E
 ```
+---
+
