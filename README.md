@@ -1,29 +1,5 @@
-<style>
-.header {
-	text-align: center;
-    font-weight: 600;
-    font-size: 40px;
-	animation: colorchange 6s infinite;
-}
-
-@keyframes colorchange {
-  0% {color: red;
-      transform: translateX(4%);}
-  25% {color: yellow;}
-  50% {color: red;
-transform: translateX(-4%)}
-  75% {color: yellow;}
- 100% {color: red;
-       transform: translateX(4%)}
-}
-
-</style>
-
-<div class="header">
-
-
 # **Right 2 Drive Backend**
-</div>
+
 by Andreas, Taner, Lihem, Kim & Mohammad
 
 ---
@@ -67,7 +43,7 @@ stateDiagram
     B: run Terminal in project folder
     C: run npm install
     D: run npm start
-    E: run http://localhost:4000/api-docs/#/ (Swagger)
+    E: run http://localhost:4000/api-docs/#/
     A --> B
     B --> C
     C --> D
