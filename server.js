@@ -132,26 +132,86 @@ app.post("/users", async (req, res) => {
   );
 });
 
-// Delete
+
+// Put / Update
 /**
  * @openapi
  * /users/{id}:
- *  delete:
- *    summary: Delete a user by ID.
- *    description: Delete a single user
- *    operationId: deleteUserById
+ *  put:
+ *    summary: Uppdate an existing user.
+ *    description: Update a single user
  *    parameters:
  *      - in: path
  *        name: id
- *        description: ID of user to delete
- *        required: true
- *        content:
- *          type: integer
- *          format: int64
- *    responses:
- *      '200':
- *        description: A successful operation
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstname:
+ *                 type: string
+ *                 description: The user's firstname.
+ *                 example: Leanne
+ *               lastname:
+ *                 type: string
+ *                 description: The user's lastname.
+ *                 example: Graham
+ *               email:
+ *                 type: string
+ *                 description: The user's email.
+ *                 example: test@ing.com
+ *               phone:
+ *                 type: string
+ *                 description: The user's phone number.
+ *                 example: 023 123 45 67
+ *               date:
+ *                 type: string
+ *                 description: The date that the user registers.
+ *                 example: 2022/09/24
  */
+app.put("/users/:id", (req, res) => {
+  const { id } = req.params;
+  const { firstname, lastname, email, phone, date,} = req.body;
+  const sqlUpdate =
+  "UPDATE right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ? WHERE id = ?";
+  db.query(
+    sqlUpdate,
+    [firstname, lastname, email, phone, date, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      }
+      res.send(result);
+    }
+    );
+  });
+  
+  
+  
+  
+  // Delete
+  /**
+   * @openapi
+   * /users/{id}:
+   *  delete:
+   *    summary: Delete a user by ID.
+   *    description: Delete a single user
+   *    operationId: deleteUserById
+   *    parameters:
+   *      - in: path
+   *        name: id
+   *        description: ID of user to delete
+   *        required: true
+   *        content:
+   *          type: integer
+   *          format: int64
+   *    responses:
+   *      '200':
+   *        description: A successful operation
+   */
+  
 app.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
   const sqlRemove = 'DELETE FROM right2drivedb WHERE id = ?';
@@ -163,22 +223,11 @@ app.delete("/users/:id", async (req, res) => {
   });
 });
 
-app.put("/users/:id", async (req, res) => {
-  const { id } = req.params;
-  const { firstname, lastname, email, phone, date } = req.body;
-  const sqlUpdate =
-    "UPDATE  right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, WHERE id = ?";
-  db.query(
-    sqlUpdate,
-    [firstname, lastname, email, phone, date, id],
-    (error, result) => {
-      if (error) {
-        console.log(error);
-      }
-      res.send(result);
-    }
-  );
-});
+
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
