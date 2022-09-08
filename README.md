@@ -43,7 +43,7 @@ stateDiagram
     B: run Terminal in project folder
     C: run npm install
     D: run npm start
-    E: run http://localhost:4000/api-docs/#/
+    E: run http
     A --> B
     B --> C
     C --> D
