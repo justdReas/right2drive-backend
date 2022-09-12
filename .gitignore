@@ -105,3 +105,7 @@ dist
 .env2
 .env3
 env
+node_modules
+logs
+*.log
+node_modules/
