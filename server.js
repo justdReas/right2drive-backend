@@ -21,6 +21,7 @@ const db = mysql.createPool({
 const app = express();
 app.use(express.json());
 app.use("/health", require("./routes/healthcheck"));
+app.use("/user", require("./routes/user"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
