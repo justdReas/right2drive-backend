@@ -46,7 +46,7 @@ app.get("/users", async (req, res) => {
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };
   db.query(sqlGet, (error, result) => {
-    res.send(result).status(200);
+    res.status(200).json(result);
   });
 });
 
@@ -78,7 +78,7 @@ app.get("/users/:id", async (req, res) => {
     if (error) {
       console.log(error);
     }
-    res.send(result);
+    res.status(200).json(result);
   });
 });
 
@@ -122,15 +122,15 @@ app.get("/users/:id", async (req, res) => {
 app.post("/users", async (req, res) => {
   const { firstname, lastname, email, phone, date } = req.body;
   const sqlInsert =
-    'INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)';
+    "INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
   db.query(
     sqlInsert,
     [firstname, lastname, email, phone, date],
     (error, result) => {
       if (error) {
-        console.log(error);
+        console.log(error).status(404);
       }
-      res.end();
+      res.status(201).json({firstname});
     }
   );
 });
@@ -177,50 +177,63 @@ app.post("/users", async (req, res) => {
 
 app.put("/users/:id", (req, res) => {
   const { id } = req.params;
-  const { firstname, lastname, email, phone, date,} = req.body;
+  const { firstname, lastname, email, phone, date } = req.body;
   const sqlUpdate =
-  "UPDATE right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ? WHERE id = ?";
+    "UPDATE right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ? WHERE id = ?";
   db.query(
     sqlUpdate,
     [firstname, lastname, email, phone, date, id],
     (error, result) => {
       if (error) {
-        console.log(error);
+        console.log(error).status(400);
       }
-      res.send(result);
+      res.status(200).json(result);
     }
-    );
-  });
+  );
+});
 
-  // Delete
-  /**
-   * @openapi
-   * /users/{id}:
-   *  delete:
-   *    summary: Delete a user by ID.
-   *    description: Delete a single user
-   *    operationId: deleteUserById
-   *    parameters:
-   *      - in: path
-   *        name: id
-   *        description: ID of user to delete
-   *        required: true
-   *        content:
-   *          type: integer
-   *          format: int64
-   *    responses:
-   *      '200':
-   *        description: A successful operation
-   */
-  
+// Delete user
+/**
+ * @openapi
+ * /users/{id}:
+ *  delete:
+ *    summary: Delete a user by ID.
+ *    description: Delete a single user
+ *    operationId: deleteUserById
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: ID of user to delete
+ *        required: true
+ *        content:
+ *          type: integer
+ *          format: int64
+ *    responses:
+ *      '200':
+ *        description: A successful operation
+ */
+
 app.delete("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const sqlRemove = 'DELETE FROM right2drivedb WHERE id = ?';
+  const sqlRemove = "DELETE FROM right2drivedb WHERE id = ?";
   db.query(sqlRemove, id, (error, result) => {
     if (error) {
       console.log(error);
     }
-    res.end();
+    res.json();
+  });
+});
+
+// Delete spans
+
+app.delete("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const sqlRemove = "DELETE FROM right2drivedb WHERE id BETWEEN number1 and number2 = ?";
+  db.query(sqlRemove, id, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.json();
   });
 });
 
