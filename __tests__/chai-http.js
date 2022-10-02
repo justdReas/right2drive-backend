@@ -13,8 +13,8 @@ describe("Testing right2drive with chaitest", () => {
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body).to.not.be.null
-                expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
-                expect(res).to.be.json;
+                expect(res).to.have.header('content-type', 'application/json; charset=utf-8')
+                expect(res).to.be.json,
                 done()
             })
 		})

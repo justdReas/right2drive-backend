@@ -14,7 +14,7 @@
     "swagger-ui-express": "^4.5.0"
   },
   "name": "right2drive-backend",
-  "description": "",
+  "description": "by Andreas, Taner, Lihem, Kim & Mohammad",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -30,5 +30,6 @@
   "bugs": {
     "url": "https://github.com/justdReas/right2drive-backend/issues"
   },
-  "homepage": "https://github.com/justdReas/right2drive-backend#readme"
+  "homepage": "https://github.com/justdReas/right2drive-backend#readme",
+  "keywords": []
 }

@@ -42,10 +42,12 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  */
 
 app.get("/users", async (req, res) => {
+  console.log("In users")
   const sqlGet = "SELECT * FROM right2drivedb";
   headers = { "cache-control": "no-cache" };
   body = { status: "available" };
   db.query(sqlGet, (error, result) => {
+    //console.log(error.message)
     res.status(200).json(result);
   });
 });
@@ -117,15 +119,19 @@ app.get("/users/:id", async (req, res) => {
  *                 type: string
  *                 description: The date that the user registers.
  *                 example: 2022/09/24
+ *               city:
+ *                 type: string
+ *                 description: The city users pick.
+ *                 example: Stockholm
  */
 
 app.post("/users", async (req, res) => {
-  const { firstname, lastname, email, phone, date } = req.body;
+  const { firstname, lastname, email, phone, date, city } = req.body;
   const sqlInsert =
-    "INSERT INTO right2drivedb(firstname, lastname, email, phone, date) VALUES(?, ?, ?, ?, ?)";
+    "INSERT INTO right2drivedb(firstname, lastname, email, phone, date, city) VALUES(?, ?, ?, ?, ?, ?)";
   db.query(
     sqlInsert,
-    [firstname, lastname, email, phone, date],
+    [firstname, lastname, email, phone, date, city],
     (error, result) => {
       if (error) {
         console.log(error).status(404);
@@ -173,16 +179,20 @@ app.post("/users", async (req, res) => {
  *                 type: string
  *                 description: The date that the user registers.
  *                 example: 2022/09/24
+ *               city:
+ *                 type: string
+ *                 description: The city users pick.
+ *                 example: Stockholm
  */
 
 app.put("/users/:id", (req, res) => {
   const { id } = req.params;
-  const { firstname, lastname, email, phone, date } = req.body;
+  const { firstname, lastname, email, phone, date, city } = req.body;
   const sqlUpdate =
-    "UPDATE right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ? WHERE id = ?";
+    "UPDATE right2drivedb SET firstname = ?, lastname = ?, email = ?, phone = ?, date = ?, city = ? WHERE id = ?";
   db.query(
     sqlUpdate,
-    [firstname, lastname, email, phone, date, id],
+    [firstname, lastname, email, phone, date, city, id],
     (error, result) => {
       if (error) {
         console.log(error).status(400);
